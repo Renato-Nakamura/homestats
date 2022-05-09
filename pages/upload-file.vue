@@ -9,12 +9,18 @@
 <script lang="ts">
 export default{
     methods:{
-        sendFile(){
+        async sendFile(){
             let dataForm = new FormData()
             // let file = document.querySelector("#file").files[0]
             let file = this.$refs.file.files[0]
             dataForm.append('file',file)
             console.log('teste', dataForm, file)
+            let res = await fetch('http://localhost:3001/upload',{
+                method:'POST',
+                body:dataForm
+            })
+            let data = await res.json()
+            console.log(data)
         }
     }
 }
