@@ -1,5 +1,5 @@
 import { getAuth, signInWithPopup,GoogleAuthProvider } from "firebase/auth";
-export default function loginPopUp(){
+function loginPopUp(){
     console.log('teste 3')
         
         const provider = new GoogleAuthProvider();
@@ -17,5 +17,17 @@ export default function loginPopUp(){
             const credential = GoogleAuthProvider.credentialFromError(error);
             console.log('deu ruim login',error )
         })
-    
+    }
+
+    async function getFirebaseIdToken(){
+        const auth = getAuth()
+        let token = await auth.currentUser.getIdToken(true).then((idToken)=>{
+            return idToken
+        })
+        return token
+    }
+
+    export {
+        loginPopUp,
+        getFirebaseIdToken
     }

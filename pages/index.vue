@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import loginPopUp from '../services/firebase-functions'
+import {loginPopUp} from '../services/firebase-functions'
 export default {
     data(){
         return{

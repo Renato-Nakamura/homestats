@@ -7,16 +7,20 @@
 </template>
 
 <script lang="ts">
+    import {getFirebaseIdToken} from '../services/firebase-functions'
 export default{
     methods:{
         async sendFile(){
+            let idToken = await getFirebaseIdToken()
             let dataForm = new FormData()
-            // let file = document.querySelector("#file").files[0]
             let file = this.$refs.file.files[0]
             dataForm.append('file',file)
             console.log('teste', dataForm, file)
             let res = await fetch('http://localhost:3001/upload',{
                 method:'POST',
+                headers:{
+                    authToken:idToken,
+                },
                 body:dataForm
             })
             let data = await res.json()
