@@ -11,6 +11,7 @@
     "nuxt": "3.0.0-rc.1"
   },
   "dependencies": {
+    "commitizen-emoji": "^1.0.5",
     "firebase": "^9.8.0"
   },
   "config": {
