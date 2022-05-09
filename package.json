@@ -7,9 +7,15 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0",
     "nuxt": "3.0.0-rc.1"
   },
   "dependencies": {
     "firebase": "^9.8.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

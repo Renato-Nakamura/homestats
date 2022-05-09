@@ -4,6 +4,7 @@
             <h1>Landing Page {{teste}}</h1>
             <button @click="loginPopUp">Login com Google</button>
         </header>
+        <nuxt-link to="upload-file"> Subir arquivo</nuxt-link>
     </div>
 </template>
 
