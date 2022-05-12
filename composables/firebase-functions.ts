@@ -4,16 +4,20 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
 } from "firebase/auth";
-
-const loginPopUp = () => {
-  console.log("teste 3");
+const loginPopUp = async () => {
+  let logged = await verifyLogin()
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+  if(logged){
+    navigateTo('/home')
+    return
+  }
   signInWithPopup(auth, provider)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       console.log("firebase login result", { result }, { token });
+      navigateTo('/home')
     })
     .catch((error) => {
       const errorCode = error.code;
