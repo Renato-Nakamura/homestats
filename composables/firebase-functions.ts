@@ -65,15 +65,22 @@ const getUserUid = async () => {
   return uid;
 };
 
-const addGroup = async (groupName: string, uid: string, uidUsers: string[]) => {
-  const { $db } = useNuxtApp();
-  const groupExists = getGroup(groupName,uid)
-  if(groupExists) return false
-  await setDoc(doc($db, "groups", groupName + "_" + uid), {
+const addGroup = async (groupName: string, invited: string[] = []) => {
+  const { $auth, $db } = useNuxtApp();
+  const uid = await getUserUid();
+  const name = await $auth.currentUser.displayName;
+  const groupExists =  (await getGroup(groupName, uid)).exists();
+  console.log('aaa',groupExists,uid,name)
+  if (groupExists) return false;
+  let res = await setDoc(doc($db, "groups", groupName + "_" + uid), {
     name: groupName,
-    pessoas: uidUsers,
-    created: new Date(),
+    members: [uid],
+    invited: invited,
+    created: { date: new Date(), name: name, uid: uid },
+    lastChangeBy: { date: new Date(), name: name, uid: uid },
   });
+  //o convidado é mandado para o back enviar notificaçao e depois altera
+  return res;
 };
 
 const getGroup = async (groupName, uid) => {
@@ -82,12 +89,5 @@ const getGroup = async (groupName, uid) => {
   return group;
 };
 
-// const getUidByEmail = async (email: string) => {
-//   // const { $auth } = useNuxtApp();
-//   const auth = getAuth();
-//   const res =  auth
-//   console.log(res);
-//   // let uid = res.
-// };
 
 export { loginPopUp, getFirebaseIdToken, verifyLogin, addGroup, getUserUid };
