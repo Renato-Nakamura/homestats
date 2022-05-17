@@ -12,7 +12,7 @@
           Parece que você ainda não possui nenhum grupo! <br />
           Crie o seu primeiro aqui:
         </h2>
-        <Nuxt-link to="/create-group">
+        <Nuxt-link to="create-group">
           <button
             class="mt-5 bg-zinc-800 text-white rounded-lg px-3 py-1 ml-auto font-semibold"
           >
@@ -26,7 +26,7 @@
             <img src="icon" alt="" />
             <h2>Meu grupo 1</h2>
             <div class="linha"></div>
-            <Nuxt-link to="/create-group" class="hidden">
+            <Nuxt-link to="create-group" class="hidden">
               <button
                 class=" bg-zinc-800 text-white rounded-lg px-3 py-1 ml-auto font-semibold"
               >
@@ -34,7 +34,7 @@
               </button>
             </Nuxt-link>
           </div>
-          <Nuxt-link to="/upload-file" >
+          <Nuxt-link to="upload-file" >
             <button
               class=" bg-zinc-800 text-white rounded-lg px-3 py-1 ml-auto font-semibold"
             >
