@@ -5,8 +5,15 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { getgroups } from "process";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 
 const loginPopUp = async () => {
   const { $auth } = useNuxtApp();
@@ -69,8 +76,8 @@ const addGroup = async (groupName: string, invited: string[] = []) => {
   const { $auth, $db } = useNuxtApp();
   const uid = await getUserUid();
   const name = await $auth.currentUser.displayName;
-  const groupExists =  (await getGroup(groupName, uid)).exists();
-  console.log('aaa',groupExists,uid,name)
+  const groupExists = (await getGroup(groupName, uid)).exists();
+  console.log("aaa", groupExists, uid, name);
   if (groupExists) return false;
   let res = await setDoc(doc($db, "groups", groupName + "_" + uid), {
     name: groupName,
@@ -89,5 +96,23 @@ const getGroup = async (groupName, uid) => {
   return group;
 };
 
+const getGroupsByUid = async (uid?: string) => {
+  console.log('entrou')
+  const { $db } = useNuxtApp();
+  if (!uid) uid = await getUserUid();
+  console.log({uid})
 
-export { loginPopUp, getFirebaseIdToken, verifyLogin, addGroup, getUserUid };
+  const groups = collection($db, "groups");
+  const q = query(groups, where("members", "array-contains", uid));
+  const groupsByUid = await getDocs(q)
+  return groupsByUid.docs
+};
+
+export {
+  loginPopUp,
+  getFirebaseIdToken,
+  verifyLogin,
+  addGroup,
+  getUserUid,
+  getGroupsByUid,
+};
