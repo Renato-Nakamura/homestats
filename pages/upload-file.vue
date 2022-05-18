@@ -18,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+const route = useRoute()
+console.log(route.query)
 let file;
 function updateFile(e) {
   file = e.target.files[0];

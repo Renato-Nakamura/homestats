@@ -13,6 +13,9 @@ import {
   collection,
   query,
   where,
+  orderBy,
+  FieldPath,
+  limit
 } from "firebase/firestore";
 
 const loginPopUp = async () => {
@@ -108,6 +111,15 @@ const getGroupsByUid = async (uid?: string) => {
   return groupsByUid.docs
 };
 
+const getRecentJsonData = async (group)=> {
+  const { $db } = useNuxtApp();
+  const col = collection($db, group);
+  const q = query(col, orderBy('timestamp','desc'),limit(1));
+  const jsonData =  (await getDocs(q)).docs[0].data()
+  console.log(jsonData)
+  return jsonData
+}
+
 export {
   loginPopUp,
   getFirebaseIdToken,
@@ -115,4 +127,5 @@ export {
   addGroup,
   getUserUid,
   getGroupsByUid,
+  getRecentJsonData
 };

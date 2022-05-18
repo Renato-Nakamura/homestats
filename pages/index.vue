@@ -21,7 +21,7 @@
             Entrar com o Google
           </button>
         </div>
-        <figure class="top-1/3 absolute md:relative py-10 md:w-5/12 ">
+        <figure class="top-1/3 absolute md:static py-12 md:w-5/12 ">
           <img
             class="w-full md:w-10/12 opacity-20 md:opacity-70 m-auto md:max-w-xl lg:mr-20"
             src="~/assets/img/graph.png"

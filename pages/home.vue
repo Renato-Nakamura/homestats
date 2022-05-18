@@ -30,7 +30,7 @@
               <h2>{{ g.replace(regex, "") }}</h2>
               <div class="linha"></div>
             </option>
-            <Nuxt-link to="create-group" >
+            <Nuxt-link to="create-group">
               <button
                 class="bg-zinc-800 text-white rounded-lg px-3 py-1 ml-auto font-semibold"
               >
@@ -63,12 +63,22 @@ const groupsName = ref([]);
 let groups;
 async function getGroups() {
   groups = await getGroupsByUid();
-  console.log("a", groups.length);
   groupsExists.value = groups.length > 0;
   groups.forEach((group) => {
     groupsName.value.push(group.id);
   });
   testes.value = groupsName.value[0];
 }
-getGroups();
+
+function getGroupData() {
+  let index = groupsName.value.indexOf(testes.value);
+  let group = groups[index];
+  return group.data();
+}
+
+getGroups().then(async () => {
+  let jsonData = await getRecentJsonData(testes.value);
+  const groupData = new Data(jsonData.data);
+  groupData.getTotalExpenses();
+});
 </script>
