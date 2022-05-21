@@ -16,6 +16,7 @@
     "tailwindcss": "^3.0.24"
   },
   "dependencies": {
+    "chart.js": "^3.7.1",
     "commitizen-emoji": "^1.0.5",
     "firebase": "^9.8.0"
   },

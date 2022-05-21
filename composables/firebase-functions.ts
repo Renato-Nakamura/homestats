@@ -112,11 +112,12 @@ const getGroupsByUid = async (uid?: string) => {
 };
 
 const getRecentJsonData = async (group)=> {
+  
   const { $db } = useNuxtApp();
   const col = collection($db, group);
   const q = query(col, orderBy('timestamp','desc'),limit(1));
-  const jsonData =  (await getDocs(q)).docs[0].data()
-  console.log(jsonData)
+  let jsonData:any =  await getDocs(q)
+  if(jsonData.docs.length) jsonData=jsonData.docs[0].data()
   return jsonData
 }
 

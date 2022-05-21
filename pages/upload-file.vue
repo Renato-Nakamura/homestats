@@ -29,7 +29,8 @@ async function sendFile() {
   let idToken = await getFirebaseIdToken();
   let dataForm = new FormData();
   dataForm.append("file", file);
-  dataForm.append("groupUid", route.query.toString());
+  dataForm.append("groupUid", route.query.group.toString());
+  console.log(route.query.group.toString())
   let res = await fetch("http://localhost:3001/upload", {
     method: "POST",
     headers: {
