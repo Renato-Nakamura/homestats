@@ -117,7 +117,7 @@ const getRecentJsonData = async (group)=> {
   const col = collection($db, group);
   const q = query(col, orderBy('timestamp','desc'),limit(1));
   let jsonData:any =  await getDocs(q)
-  if(jsonData.docs.length) jsonData=jsonData.docs[0].data()
+  // if(jsonData.docs.length) jsonData=jsonData.docs[0].data()
   return jsonData
 }
 

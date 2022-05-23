@@ -1,10 +1,6 @@
 <template>
   <div>
     <NavBar />
-    <Nuxt-link :to="{ path: 'upload-file', query: { group: groupSelected } }"
-      >Subir</Nuxt-link
-    >
-    <Nuxt-link to="/create-group">Grupos</Nuxt-link>
     <main class="flex justify-center">
       <div
         class="rounded bg-zinc-200 shadow-lg text-lg w-2/3 p-5"
@@ -73,11 +69,10 @@ Chart.register(...registerables);
 const groupSelected = ref("");
 const groupsExists = ref(false);
 const groupsName = ref([]);
-// const mainGraph = ref(null)
 const regex = /\_.*/;
 const ctx = "mainGraph";
 let groupData: Data;
-let mainChart:Chart;
+let mainChart: Chart;
 let groups;
 async function getGroups() {
   groups = await getGroupsByUid();
@@ -97,40 +92,42 @@ function getGroupInfo() {
 getGroups().then(getGroupData);
 
 async function getGroupData() {
+  if (mainChart) mainChart.destroy();
   let jsonData = await getRecentJsonData(groupSelected.value);
-  if (!jsonData) return;
-  console.log("data", mainChart);
-  groupData = new Data(jsonData.data);
+  if (!jsonData.docs.length) return;
+  groupData = new Data(jsonData.docs[0].data().data);
   // const totalMonthExpenses = groupData.totalMonthExpenses();
   const totalMonthExpenses = groupData.dayExpenses();
-  console.log(totalMonthExpenses)
+  createChart(mainChart, totalMonthExpenses)
+}
 
-  mainChart = new Chart(ctx, { 
+function createChart(chart, info){
+  chart = new Chart(ctx, {
     type: "line",
-    data: { 
-      labels: totalMonthExpenses.labels,
+    data: {
+      labels: info.labels,
       datasets: [
         {
-          label: "Custo total por mês",
-          data: totalMonthExpenses.data,
+          label: info.title,
+          data: info.data,
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           tension: 0.1,
         },
-        
       ],
     },
-    options:{
-      plugins:{
-        tooltip:{
-          callbacks:{
-            title: function(){
-              return 'oioi'
-            }
-          }
-        }
-      }
-    }
+    options: {
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: function (i) {
+              // console.log(i)
+              // return info.labels[]
+            },
+          },
+        },
+      },
+    },
   });
 }
 </script>

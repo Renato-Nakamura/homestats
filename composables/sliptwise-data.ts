@@ -1,6 +1,7 @@
 export class Data {
   json: any;
   monthExpense: any[] = [];
+  dayExpense: any[] = [];
   constructor(json) {
     this.json = json;
   }
@@ -17,6 +18,19 @@ export class Data {
         }
       });
   }
+  getDayExpenses=(month)=>{
+    month.forEach((expense) => {
+        const dayIndex = this.dayExpense.findIndex(
+          (d) => d[0]["Data"] == expense["Data"]
+        );
+        if (dayIndex == -1) {
+          this.dayExpense.push([expense]);
+        } else {
+          this.dayExpense[dayIndex].push(expense);
+        }
+      });
+  }
+
   totalMonthExpenses = () => {
     this.getMonthExpenses()
     this.monthExpense = this.monthExpense.map((month) => {
@@ -28,17 +42,30 @@ export class Data {
       }, 0);
       return {date,monthCost};
     });
-    console.log(this.monthExpense)
+    const title = "Custo total do mês"
     const labels = this.monthExpense.map((e)=> e.date)
     const data = this.monthExpense.map((e)=> e.monthCost)
-    return {labels,data};
+    return {labels,data,title};
   };
+
   dayExpenses = ()=>{
       this.getMonthExpenses()
-      const expenses =this.monthExpense[this.monthExpense.length -1]
-      const labels = expenses.map((a)=> a["Data"])
-      const data = expenses.map((a)=> a["Custo"])
-      return {labels,data};
+      let expenses =this.monthExpense[this.monthExpense.length -1]
+      this.getDayExpenses(expenses)
+      expenses = this.dayExpense.map((day)=>{
+      const date = day[0]["Data"]
+        const dayCost = day.reduce(function (prevValue, curValue) {
+          if (!curValue["Custo"]) return prevValue;
+          let a = prevValue + parseFloat(curValue["Custo"]);
+          return a;
+        }, 0)
+        return {date,dayCost}
+      })
+      console.log(this.dayExpense,expenses)
+      const title = "Custo total do dia" 
+      const labels = expenses.map((e)=> e.date)
+      const data = expenses.map((e)=> e.dayCost)
+      return {labels,data,title};
   }
 }
 /*
