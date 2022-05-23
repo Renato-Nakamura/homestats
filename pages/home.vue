@@ -59,6 +59,7 @@
         </div>
       </div>
     </main>
+    <button @click="tete">AAAA</button>
   </div>
 </template>
 
@@ -81,6 +82,10 @@ async function getGroups() {
     groupsName.value.push(group.id);
   });
   groupSelected.value = groupsName.value[0];
+}
+
+function tete(){
+  getTokenFCM()
 }
 
 function getGroupInfo() {

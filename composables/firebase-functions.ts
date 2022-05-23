@@ -18,6 +18,8 @@ import {
   limit
 } from "firebase/firestore";
 
+import {getToken} from 'firebase/messaging'
+
 const loginPopUp = async () => {
   const { $auth } = useNuxtApp();
   let logged = await verifyLogin();
@@ -121,6 +123,16 @@ const getRecentJsonData = async (group)=> {
   return jsonData
 }
 
+const getTokenFCM=()=>{
+  const { $messaging } = useNuxtApp();
+  getToken($messaging, {vapidKey:import.meta.env.VITE_VAPID_KEY.toString()}).then((token)=>{
+    console.log('token',token)
+  }).catch((err) => {
+    console.log('An error occurred while retrieving token. ', err);
+    // ...
+  })
+}
+
 export {
   loginPopUp,
   getFirebaseIdToken,
@@ -128,5 +140,6 @@ export {
   addGroup,
   getUserUid,
   getGroupsByUid,
-  getRecentJsonData
+  getRecentJsonData,
+  getTokenFCM
 };
