@@ -31,7 +31,7 @@ async function sendFile() {
   dataForm.append("file", file);
   dataForm.append("groupUid", route.query.group.toString());
   console.log(route.query.group.toString())
-  let res = await fetch("http://localhost:3001/upload", {
+  let res = await fetch("https://homestats-back.vercel.app/upload", {
     method: "POST",
     headers: {
       authToken: idToken,
